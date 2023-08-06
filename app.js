@@ -38,11 +38,15 @@ app.get("/campgrounds/new", (req, res) => {
   res.render("campgrounds/new");
 });
 
-app.post("/campgrounds", async (req, res) => {
-  // res.send(req.body);  <- 포스트 요청 내용 확인
-  const campground = new Campground(req.body.campground);
-  await campground.save();
-  res.redirect(`/campgrounds/${campground._id}`);
+app.post("/campgrounds", async (req, res, next) => {
+  try {
+    // res.send(req.body);  <- 포스트 요청 내용 확인
+    const campground = new Campground(req.body.campground);
+    await campground.save();
+    res.redirect(`/campgrounds/${campground._id}`);
+  } catch (e) {
+    next(e);
+  }
 });
 
 app.get("/campgrounds/:id", async (req, res) => {
@@ -69,6 +73,9 @@ app.delete("/campgrounds/:id", async (req, res) => {
   res.redirect(`/campgrounds`);
 });
 
+app.use((err, req, res, next) => {
+  res.send("어디선가 문제가 생겼습니다.");
+});
 app.listen(3000, () => {
   console.log("서버포트 3000 시작");
 });
