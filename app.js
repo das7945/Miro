@@ -128,3 +128,5 @@ app.listen(3000, () => {
 //   await camp.save().then(() => console.log("디비 저장성공"));
 //   res.send(camp);
 // });
+
+console.dir(mongoose);
