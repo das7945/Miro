@@ -26,12 +26,12 @@ router.post(
   "/",
   validateReview,
   catchAsync(async (req, res) => {
-    console.log(req.params);
     const campground = await Campground.findById(req.params.id);
     const review = new Review(req.body.review);
     campground.reviews.push(review);
     await review.save();
     await campground.save();
+    req.flash("success", "리뷰작성이 되었습니다.");
     res.redirect(`/campgrounds/${campground._id}`);
   })
 );
@@ -42,6 +42,7 @@ router.delete(
     const { id, reviewId } = req.params;
     await Campground.findByIdAndUpdate(id, { $pull: { reviews: reviewId } });
     await Review.findByIdAndDelete(reviewId);
+    req.flash("success", "리뷰삭제가 되었습니다.");
     res.redirect(`/campgrounds/${id}`);
   })
 );

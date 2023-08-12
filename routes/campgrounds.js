@@ -3,7 +3,6 @@ const router = express.Router();
 const catchAsync = require("../utils/catchAsync");
 const ExpressError = require("../utils/ExpressError");
 const Campground = require("../models/campground");
-const Joi = require("joi");
 const { campgroundSchema } = require("../schemas.js");
 
 const validateCampground = (req, res, next) => {
@@ -38,6 +37,7 @@ router.post(
     //   throw new ExpressError("잘못된 캠핑장데이터 입니다.", 400);
     const campground = new Campground(req.body.campground);
     await campground.save();
+    req.flash("success", "캠핑장 등록을 성공했습니다.");
     res.redirect(`/campgrounds/${campground._id}`);
   })
 );
@@ -48,6 +48,10 @@ router.get(
     const campground = await Campground.findById(req.params.id).populate(
       "reviews"
     );
+    if (!campground) {
+      req.flash("error", "캠핑장을 찾을 수 없습니다.");
+      return res.redirect("/campgrounds");
+    }
     res.render("campgrounds/show", { campground });
   })
 );
@@ -56,6 +60,10 @@ router.get(
   "/:id/edit",
   catchAsync(async (req, res) => {
     const campground = await Campground.findById(req.params.id);
+    if (!campground) {
+      req.flash("error", "캠핑장을 찾을 수 없습니다.");
+      return res.redirect("/campgrounds");
+    }
     res.render("campgrounds/edit", { campground });
   })
 );
@@ -68,6 +76,7 @@ router.put(
     const campground = await Campground.findByIdAndUpdate(id, {
       ...req.body.campground,
     });
+    req.flash("success", "캠핑장 업데이트가  성공적으로 되었습니다.");
     res.redirect(`/campgrounds/${campground._id}`);
   })
 );
@@ -77,6 +86,7 @@ router.delete(
   catchAsync(async (req, res) => {
     const { id } = req.params;
     await Campground.findByIdAndDelete(id);
+    req.flash("success", "캠핑장 삭제가  성공적으로 되었습니다.");
     res.redirect(`/campgrounds`);
   })
 );
