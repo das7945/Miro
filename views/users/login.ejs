@@ -1,7 +1,7 @@
 <% layout("layouts/boilerplate") %>
-<h1>회원가입</h1>
+<h1>로그인</h1>
 <div class="mb-3">
-  <form action="/register" method="POST" class="validated-form" novalidate>
+  <form action="/login" method="POST" class="validated-form" novalidate>
     <div class="mb-3">
       <label class="form-label" for="username">Username</label>
       <input
@@ -13,17 +13,7 @@
       />
       <div class="valid-feedback">Look good!</div>
     </div>
-    <div class="mb-3">
-      <label class="form-label" for="email">Email</label>
-      <input
-        class="form-control"
-        type="email"
-        id="email"
-        name="email"
-        required
-      />
-      <div class="valid-feedback">Look good!</div>
-    </div>
+
     <div class="mb-3">
       <label class="form-label" for="password">Password</label>
       <input
@@ -35,6 +25,6 @@
       />
       <div class="valid-feedback">Look good!</div>
     </div>
-    <button class="btn btn-success">계정생성</button>
+    <button class="btn btn-success">로그인</button>
   </form>
 </div>
