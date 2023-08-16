@@ -6,36 +6,18 @@ const express = require("express");
 // { mergeParams: true } 옵션을 사용하여, app.js와 reviews.js의 매개변수가 병합 할 수 있음.
 const router = express.Router({ mergeParams: true });
 
-const Campground = require("../models/campground");
-const Review = require("../models/review");
+const reviews = require("../controllers/reviews");
 const catchAsync = require("../utils/catchAsync");
-// const ExpressError = require("../utils/ExpressError");
-// const { reviewSchema } = require("../schemas.js");
-const { validateReview } = require("../middleware");
 
-router.post(
-  "/",
-  validateReview,
-  catchAsync(async (req, res) => {
-    const campground = await Campground.findById(req.params.id);
-    const review = new Review(req.body.review);
-    campground.reviews.push(review);
-    await review.save();
-    await campground.save();
-    req.flash("success", "리뷰작성이 되었습니다.");
-    res.redirect(`/campgrounds/${campground._id}`);
-  })
-);
+const { validateReview, isLoggedIn, isReviewAuthor } = require("../middleware");
+
+router.post("/", isLoggedIn, validateReview, catchAsync(reviews.createReview));
 
 router.delete(
   "/:reviewId",
-  catchAsync(async (req, res) => {
-    const { id, reviewId } = req.params;
-    await Campground.findByIdAndUpdate(id, { $pull: { reviews: reviewId } });
-    await Review.findByIdAndDelete(reviewId);
-    req.flash("success", "리뷰삭제가 되었습니다.");
-    res.redirect(`/campgrounds/${id}`);
-  })
+  isLoggedIn,
+  isReviewAuthor,
+  catchAsync(reviews.deleteReview)
 );
 
 module.exports = router;

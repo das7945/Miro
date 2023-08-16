@@ -1,6 +1,7 @@
 const { campgroundSchema, reviewSchema } = require("./schemas.js");
 const ExpressError = require("./utils/ExpressError");
 const Campground = require("./models/campground");
+const Review = require("./models/review");
 
 // 사용자가 로그인을 한 상태인지 확인하는 미들웨어
 module.exports.isLoggedIn = (req, res, next) => {
@@ -40,6 +41,16 @@ module.exports.isAuthor = async (req, res, next) => {
   const { id } = req.params;
   const campground = await Campground.findById(id);
   if (!campground.author.equals(req.user._id)) {
+    req.flash("error", "권한이 없습니다.");
+    return res.redirect(`/campgrounds/${id}`);
+  }
+  next();
+};
+
+module.exports.isReviewAuthor = async (req, res, next) => {
+  const { id, reviewId } = req.params;
+  const review = await Review.findById(reviewId);
+  if (!review.author.equals(req.user._id)) {
     req.flash("error", "권한이 없습니다.");
     return res.redirect(`/campgrounds/${id}`);
   }

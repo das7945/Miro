@@ -20,6 +20,15 @@ const CampgroundSchema = new Schema({
   ],
 });
 
+// formattedPrice로 가상 필드를 정의하여 가격을 한국 원화 형식으로 표시 (예 : ₩1,000)
+CampgroundSchema.virtual("formattedPrice").get(function () {
+  const priceInKRW = this.price.toLocaleString("ko-KR", {
+    style: "currency",
+    currency: "KRW",
+  });
+  return priceInKRW;
+});
+
 //쿼리미들웨어를 통한 삭제
 // 몽구스의 모델삭제 메서드중 findOndAndDelete를 쓰고(몽구스사이트를 참고하여 사용) 그 다음 구문으로 사용자 메서드를 작성
 // 클라이언트 페이지의 임의 페이지를 누를 경우 doc이라는 인자를 받아
