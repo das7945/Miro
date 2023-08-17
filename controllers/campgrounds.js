@@ -9,14 +9,19 @@ module.exports.renderNewForm = (req, res) => {
   res.render("campgrounds/new");
 };
 
-module.exports.createCampground = async (req, res) => {
+module.exports.createCampground = async (req, res, next) => {
   // res.send(req.body);  <- 포스트 요청 내용 확인
   // if (!req.body.campground)
   //   throw new ExpressError("잘못된 캠핑장데이터 입니다.", 400);
   const campground = new Campground(req.body.campground);
-  console.log(`req.user 내부 상황 ${req.user}`);
+  // console.log(`req.user 내부 상황 ${req.user}`);
+  campground.images = req.files.map((f) => ({
+    url: f.path,
+    filename: f.filename,
+  }));
   campground.author = req.user._id;
   await campground.save();
+  console.log(campground);
   req.flash("success", "캠핑장 등록을 성공했습니다.");
   res.redirect(`/campgrounds/${campground._id}`);
 };

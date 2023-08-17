@@ -4,6 +4,9 @@ const campgrounds = require("../controllers/campgrounds");
 const catchAsync = require("../utils/catchAsync");
 const { campgroundSchema } = require("../schemas.js");
 const { isLoggedIn, isAuthor, validateCampground } = require("../middleware");
+const multer = require("multer");
+const { storage } = require("../cloudinary/index");
+const upload = multer({ storage }); // {}안의 내용이 저장소위치
 
 // router.route의 경우 코드를 줄이는 방법중 하나인데,
 // 만약 경로가 같고 get, put, post등 요청메서드만 다를 경우
@@ -13,6 +16,7 @@ router
   .get(catchAsync(campgrounds.index))
   .post(
     isLoggedIn,
+    upload.array("image"),
     validateCampground,
     catchAsync(campgrounds.createCampground)
   );

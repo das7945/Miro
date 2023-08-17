@@ -1,3 +1,10 @@
+if (process.env.NODE_ENV !== "production") {
+  require("dotenv").config();
+}
+
+// console.log(process.env.CLOUDINARY_CLOUD_NAME);
+// console.log(process.env.CLOUDINARY_KEY);
+
 const express = require("express");
 const path = require("path");
 const mongoose = require("mongoose");
@@ -58,7 +65,7 @@ passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
 app.use((req, res, next) => {
-  console.log(req.session);
+  // console.log(req.session);
   res.locals.currentUser = req.user;
   // console.log(res.locals.currentUser); //  로그인 유무 확인
   res.locals.success = req.flash("success");
