@@ -9,6 +9,7 @@ module.exports.campgroundSchema = Joi.object({
     location: Joi.string().required(),
     description: Joi.string().required(),
   }).required(),
+  deleteImages: Joi.array(),
 });
 
 // 리뷰작성에 대한 서버에서의 유효성 검사
