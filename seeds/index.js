@@ -35,6 +35,7 @@ const seedDB = async () => {
           filename: "Miro/kh6yo7j3dun06mulya2y",
         },
       ],
+      geometry: { type: "Point", coordinates: [127.06895, 37.54408] },
       description:
         "Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorem, officia delectus reprehenderit corporis sunt placeat debitis, non provident reiciendis consequatur eius quos itaque sint blanditiis necessitatibus fugit harum quasi repellendus.",
       price,

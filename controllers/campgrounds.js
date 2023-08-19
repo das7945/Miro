@@ -1,4 +1,7 @@
 const Campground = require("../models/campground");
+const mbxGeocoding = require("@mapbox/mapbox-sdk/services/geocoding");
+const mapBoxToken = process.env.MAPBOX_TOKEN;
+const geocoder = mbxGeocoding({ accessToken: mapBoxToken });
 const { cloudinary } = require("../cloudinary");
 
 module.exports.index = async (req, res) => {
@@ -14,7 +17,14 @@ module.exports.createCampground = async (req, res, next) => {
   // res.send(req.body);  <- 포스트 요청 내용 확인
   // if (!req.body.campground)
   //   throw new ExpressError("잘못된 캠핑장데이터 입니다.", 400);
+  const geoData = await geocoder
+    .forwardGeocode({
+      query: req.body.campground.location,
+      limit: 1,
+    })
+    .send();
   const campground = new Campground(req.body.campground);
+  campground.geometry = geoData.body.features[0].geometry;
   // console.log(`req.user 내부 상황 ${req.user}`);
   campground.images = req.files.map((f) => ({
     url: f.path,
@@ -25,6 +35,7 @@ module.exports.createCampground = async (req, res, next) => {
   // console.log(campground);
   req.flash("success", "캠핑장 등록을 성공했습니다.");
   res.redirect(`/campgrounds/${campground._id}`);
+  console.log(campground.geometry);
 };
 
 module.exports.showCampground = async (req, res) => {
