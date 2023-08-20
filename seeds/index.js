@@ -20,11 +20,18 @@ const seedDB = async () => {
   await Campground.deleteMany({});
   for (let i = 0; i < 20; i++) {
     const random1000 = Math.floor(Math.random() * 1000);
-    const price = Math.floor(Math.random() * 80000) + 10;
-    const camp = new Campground({
+    const price = Math.floor(Math.random() * 20) + 10;
+    var camp = new Campground({
       author: "64da923add8f133aa3bb67d5",
       location: `${cities[random1000].city},${cities[random1000].state}`,
       title: `${sample(descriptors)} ${sample(places)}`,
+      geometry: {
+        type: "Point",
+        coordinates: [
+          cities[random1000].longitude,
+          cities[random1000].latitude,
+        ],
+      },
       images: [
         {
           url: "https://res.cloudinary.com/dxk1akbrt/image/upload/v1692296424/Miro/l63gsezwkxs4tx9usjkc.jpg",
@@ -35,7 +42,7 @@ const seedDB = async () => {
           filename: "Miro/kh6yo7j3dun06mulya2y",
         },
       ],
-      geometry: { type: "Point", coordinates: [127.06895, 37.54408] },
+
       description:
         "Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorem, officia delectus reprehenderit corporis sunt placeat debitis, non provident reiciendis consequatur eius quos itaque sint blanditiis necessitatibus fugit harum quasi repellendus.",
       price,

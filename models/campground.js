@@ -11,33 +11,47 @@ ImageSchema.virtual("thumbnail").get(function () {
   return this.url.replace("/upload", "/upload/w_200");
 });
 
-const CampgroundSchema = new Schema({
-  title: String,
-  images: [ImageSchema],
-  geometry: {
-    type: {
-      type: String,
-      enum: ["Point"],
-      required: true,
+const opts = { toJSON: { virtuals: true } };
+// 기본값으로 Mongoose는 문서를 JSON으로 변환할 때 virtuals을 포함하지 않기때문에
+// 상단의 옵션을 추가해야한다. (참고서내용)
+
+const CampgroundSchema = new Schema(
+  {
+    title: String,
+    images: [ImageSchema],
+    geometry: {
+      type: {
+        type: String,
+        enum: ["Point"],
+        required: true,
+      },
+      coordinates: {
+        type: [Number],
+        required: true,
+      },
     },
-    coordinates: {
-      type: [Number],
-      required: true,
-    },
-  },
-  price: Number,
-  description: String,
-  location: String,
-  author: {
-    type: Schema.Types.ObjectId,
-    ref: "User",
-  },
-  reviews: [
-    {
+    price: Number,
+    description: String,
+    location: String,
+    author: {
       type: Schema.Types.ObjectId,
-      ref: "Review",
+      ref: "User",
     },
-  ],
+    reviews: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "Review",
+      },
+    ],
+  },
+  opts
+);
+
+CampgroundSchema.virtual("properties.popUpMarkup").get(function () {
+  return `<strong><a href="/campgrounds/${
+    this._id
+  }">${this.title}</a></strong></br>
+  <span>${this.description.substring(0, 30)}...</span><p>${this.price}원</p>`;
 });
 
 // formattedPrice로 가상 필드를 정의하여 가격을 한국 원화 형식으로 표시 (예 : ₩1,000)

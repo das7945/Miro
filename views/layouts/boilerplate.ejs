@@ -38,21 +38,22 @@
     <script>
       const inputElement = document.getElementById("image");
       const fileNamesDisplay = document.getElementById("selectedFileNames");
-
-      inputElement.addEventListener("change", (event) => {
-        const selectedFiles = event.target.files;
-        if (selectedFiles.length > 0) {
-          fileNamesDisplay.innerHTML = "<ul>";
-          for (const file of selectedFiles) {
-            const listItem = document.createElement("li");
-            listItem.textContent = file.name;
-            fileNamesDisplay.appendChild(listItem);
+      if (document.getElementById("image")) {
+        inputElement.addEventListener("change", (event) => {
+          const selectedFiles = event.target.files;
+          if (selectedFiles.length > 0) {
+            fileNamesDisplay.innerHTML = "<ul>";
+            for (const file of selectedFiles) {
+              const listItem = document.createElement("li");
+              listItem.textContent = file.name;
+              fileNamesDisplay.appendChild(listItem);
+            }
+            fileNamesDisplay.innerHTML += "</ul>";
+          } else {
+            fileNamesDisplay.innerHTML = "파일이 선택되지 않았습니다.";
           }
-          fileNamesDisplay.innerHTML += "</ul>";
-        } else {
-          fileNamesDisplay.innerHTML = "파일이 선택되지 않았습니다.";
-        }
-      });
+        });
+      }
     </script>
 
     <script src="/javascripts/validateForms.js"></script>
