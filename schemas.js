@@ -15,7 +15,7 @@ module.exports.campgroundSchema = Joi.object({
 // 리뷰작성에 대한 서버에서의 유효성 검사
 module.exports.reviewSchema = Joi.object({
   review: Joi.object({
-    body: Joi.string().required(),
     rating: Joi.number().required().min(1).max(5),
+    body: Joi.string().required(),
   }).required(),
 });
