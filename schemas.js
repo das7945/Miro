@@ -1,4 +1,4 @@
-const Joi = require("Joi");
+const Joi = require("joi");
 
 // 캠핑장 등록에 대한 서버에서의 유효성 검사
 module.exports.campgroundSchema = Joi.object({
