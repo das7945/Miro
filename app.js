@@ -114,8 +114,9 @@ app.use((err, req, res, next) => {
   res.status(statusCode).render("error", { err });
 });
 
-app.listen(3000, () => {
-  console.log("서버포트 3000 시작");
+const port = process.env.PORT || 3000;
+app.listen(port, () => {
+  console.log(`서버포트 ${port} 시작`);
 });
 
 // app.get("/makecampground", async (req, res) => {
