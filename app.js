@@ -22,7 +22,12 @@ const userRoutes = require("./routes/users");
 const campgroundRoutes = require("./routes/campgrounds");
 const reviewRoutes = require("./routes/reviews");
 
-mongoose.connect("mongodb://localhost:27017/yelp-camp", {
+const MongoStore = require("connect-mongo");
+
+const localDb_url = process.env.DB_URL || "mongodb://localhost:27017/yelp-camp";
+// const db_url = process.env.DB_URL;
+// mongoose.connect(db_url, {
+mongoose.connect(localDb_url, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
@@ -44,9 +49,24 @@ app.use(methodOverride("_method"));
 app.use(express.static(path.join(__dirname, "public")));
 app.use(mongoSanitize());
 
+const secret = process.env.SECRET || "das7945";
+
+const store = MongoStore.create({
+  mongoUrl: localDb_url,
+  touchAfter: 24 * 60 * 60,
+  crypto: {
+    secret,
+  },
+});
+
+store.on("error", function (e) {
+  console.log("세션에러", e);
+});
+
 const sessionConfig = {
+  store,
   name: "session", // Application에서 세션아이디를 사용자가 만들수있음.
-  secret: "das7945",
+  secret,
   resave: false,
   saveUninitialized: true,
   cookie: {
