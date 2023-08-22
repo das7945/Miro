@@ -2,19 +2,23 @@
 
 MiroCamp는 Node.js, MongoDB, Express를 사용하여 만든 RESTful 웹앱입니다.
 
+## 소개
+
+MiroCamp은 야외 캠핑장 정보를 공유하고 관리하는 플랫폼으로, 사용자들은 다양한 캠핑장을 검색하고 리뷰를 작성하며, 자신이 다녀온 캠핑장을 공유할 수 있습니다. CRUD(Create, Read, Update, Delete) 형식으로 캠핑장 정보를 관리할 수 있으며, 사용자 간의 상호작용을 통해 캠핑 경험을 더욱 풍부하게 만들어줍니다.
+
 **모든 캠핑장은 무작위로 생성되며 데이터는 가짜(임의로 생성됨)입니다.**
 
 MiroCamp를 통해 사용자는 다음과 같은 경험을 할 수 있습니다.
 
-- 캠핑장 검색
-- 이메일 주소로 가입
-- 캠핑장 등록
-- 캠핑장 순위
-- 캠핑장에 대한 의견
+- 다양한 캠핑장 상세 정보 확인
+- 리뷰 작성 및 캠핑 경험 공유
+- 캠핑장 등록, 수정, 삭제
+- 사용자 인증 및 권한 관리
+- 이미지 업로드 및 공유
 
 ![Image 1](https://res.cloudinary.com/dxk1akbrt/image/upload/v1692643596/Miro/k67y8cbr3zxmd3jadvjf.png)
 
-**웹 링크:** 대기중...
+**웹 링크:** https://desolate-harbor-98574-4037addd37a5.herokuapp.com/
 
 ## 스택 및 기능
 
