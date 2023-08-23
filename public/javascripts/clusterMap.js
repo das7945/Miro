@@ -5,7 +5,7 @@ const map = new mapboxgl.Map({
   style: "mapbox://styles/mapbox/light-v11",
   // center: [-103.5917, 40.6699],
   center: [126.978, 37.5665], // 기본위치 한국으로 변경
-  zoom: 3,
+  zoom: 5,
 });
 
 map.addControl(new mapboxgl.NavigationControl());

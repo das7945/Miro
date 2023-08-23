@@ -64,10 +64,10 @@
     </div>
   </div>
   <div class="col-6">
-    <% if(currentUser){ %>
     <div class="mb-3">
       <div id="map"></div>
     </div>
+    <% if(currentUser){ %>
     <h2>리뷰 남기기</h2>
     <form
       action="/campgrounds/<%= campground._id%>/reviews"
